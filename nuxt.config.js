@@ -2,7 +2,16 @@
 
 
 export default defineNuxtConfig({
-
+    app: {
+        head: {
+          charset: 'utf-16',
+          viewport: 'width=500, initial-scale=1', 
+          meta: [
+            // <meta name="description" content="My amazing site">
+            { name: 'robots', content: 'noindex' }
+          ],
+        }
+      },
     css: [
 
         '@/assets/css/normalize.css',
