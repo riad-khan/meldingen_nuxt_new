@@ -23,7 +23,7 @@
                   <img v-if="item.dienst == 'brandweer'" src="@/assets/img/brandweer.png" class="news-icon"/>
                   <img v-if="item.dienst == 'kustwacht'" src="@/assets/img/kustwacht.png" class="news-icon"/>
                   <img v-if="item.dienst == 'politie'" src="@/assets/img/politie.png" class="news-icon"/>
-                  <img v-if="item.dienst == 'traumaheli'" src="@/assets/img/traumaheli.png" class="news-icon"/>
+<!--                  <img v-if="item.dienst == 'traumaheli'" src="@/assets/img/traumaheli.png" class="news-icon"/>-->
                   <div class="news-content d-flex aling-items-center">
                     <div class="content_left">
                       <h4>
