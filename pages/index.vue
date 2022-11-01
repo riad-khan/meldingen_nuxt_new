@@ -14,8 +14,6 @@
           <div class="col-md-8">
             <div class="news_list">
               <RegioList region="Nederland" path="meldingen"/>
-               <div v-if="pending" class="spin" style="height: 300px;"></div>
-
 
               <div  class="meldingen"  v-for="(item,i) in meldingens"  :key="i">
                 <div class="news-item box-shadow border-radius acard">
