@@ -19,7 +19,11 @@
 
               <div  class="meldingen"  v-for="(item,i) in meldingens"  :key="i">
                 <div class="news-item box-shadow border-radius acard">
-                  <img :src="`/_nuxt/assets/img/${item.dienst}.png`" class="news-icon"/>
+                  <img v-if="item.dienst == 'ambulance'" src="@/assets/img/ambulance.png" class="news-icon"/>
+                  <img v-if="item.dienst == 'brandweer'" src="@/assets/img/brandweer.png" class="news-icon"/>
+                  <img v-if="item.dienst == 'kustwacht'" src="@/assets/img/kustwacht.png" class="news-icon"/>
+                  <img v-if="item.dienst == 'politie'" src="@/assets/img/politie.png" class="news-icon"/>
+                  <img v-if="item.dienst == 'traumaheli'" src="@/assets/img/traumaheli.png" class="news-icon"/>
                   <div class="news-content d-flex aling-items-center">
                     <div class="content_left">
                       <h4>
