@@ -10,7 +10,7 @@
         <ul>
           <li class=""><nuxt-link to="/dashboard/edit-profile">Edit profile</nuxt-link></li>
           <li class=""><a >My favorite nieuws</a></li>
-          <li class=""><router-link to="/my-reacties">My reacties</router-link></li>
+          <li class=""><nuxt-link to="/dashboard/reacties">My reacties</nuxt-link></li>
           <li><a @click.prevent="logout" href="/user/logout">Logout</a></li>
         </ul>
       </div>
