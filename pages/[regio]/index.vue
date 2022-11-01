@@ -12,7 +12,7 @@
             </div>
             <div class="col-md-8">
               <div class="news_list">
-                <RegioList region="Nederland" path="meldingen"/>
+                <RegioList :region="this.route.params.regio" path="meldingen"/>
                 <!--         <div v-if="loading" class="spin" style="height: 300px;"></div>-->
 
 
@@ -22,6 +22,7 @@
                     <img v-if="item.dienst == 'brandweer'" src="@/assets/img/brandweer.png" class="news-icon"/>
                     <img v-if="item.dienst == 'kustwacht'" src="@/assets/img/kustwacht.png" class="news-icon"/>
                     <img v-if="item.dienst == 'politie'" src="@/assets/img/politie.png" class="news-icon"/>
+                    <img v-if="item.dienst == 'traumaheli'" src="@/assets/img/traumaheli.png" class="news-icon"/>
                     <div class="news-content d-flex aling-items-center">
                       <div class="content_left">
                         <h4>

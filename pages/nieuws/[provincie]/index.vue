@@ -11,7 +11,7 @@
       <section class="news-archive sec-padding pt-0">
         <div class="container">
           <div class="news_lsit mt-20">
-            <RegioList path="nieuws" region="Nederland"/>
+            <RegioList path="nieuws" :region="this.$route.params.provincie"/>
           </div>
           <div class="row">
             <div class="col-md-8 col-xs-12 ">

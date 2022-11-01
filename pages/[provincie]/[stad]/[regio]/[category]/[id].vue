@@ -36,7 +36,15 @@
                 <h3 class="weight-500 mt-30">Verzonden aan eenheden</h3>
 
                 <ul v-for="(item,i) in enheedens" class="inline-list list-gap-10 d-flex align-items-center" :key="i">
-                  <li><img width="24" :src="`/_nuxt/assets/img/${item.dienst}.png`" alt="Ambulance icon" /></li>
+                  <li>
+
+                    <img v-if="item.dienst == 'ambulance'" src="@/assets/img/ambulance.png" class="news-icon"/>
+                    <img v-if="item.dienst == 'brandweer'" src="@/assets/img/brandweer.png" class="news-icon"/>
+                    <img v-if="item.dienst == 'kustwacht'" src="@/assets/img/kustwacht.png" class="news-icon"/>
+                    <img v-if="item.dienst == 'politie'" src="@/assets/img/politie.png" class="news-icon"/>
+                    <img v-if="item.dienst == 'traumaheli'" src="@/assets/img/traumaheli.png" class="news-icon"/>
+
+                  </li>
                   <li><a href="#" rel="nofollow">{{item.capcode}}</a>, </li>
                   <li>{{item.omschrijving}} </li>
                 </ul>
