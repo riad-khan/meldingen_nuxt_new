@@ -63,6 +63,9 @@
                     </div>
                   </div>
                 </div>
+
+                <div v-if="loading" class="spin" style="height: 300px;"></div>
+
                 <div v-if="i % 7 === 5" class="card card-img">
                   <div class="news-item box-shadow border-radius news-ad-sec min-height-100"
                        :style="image">
@@ -147,7 +150,7 @@ export default {
     }
   },
   created() {
-    this.loading = isLoading
+
     this.meldingens = meldingenArray;
   },
   mounted() {
@@ -159,7 +162,6 @@ export default {
     },
     getMoreMeldingen(page) {
       this.loading = true;
-
       axios.get(`${apiUrl}/meldingen/scroll-more/` + page)
           .then((response) => {
             response.data.map((item, i) => {
