@@ -11,7 +11,7 @@
       <section class="news-archive sec-padding pt-0">
         <div class="container">
           <div class="news_lsit mt-20">
-            <RegioList path="nieuws" :region="this.$route.params.provincie"/>
+            <RegioList path="nieuws" :region="provincie"/>
           </div>
           <div class="row">
             <div class="col-md-8 col-xs-12 ">
@@ -177,6 +177,8 @@ const router = useRoute();
 apiUrl = config.public.api;
 backend = config.public.backend;
 const { data } = await useAsyncData('seo', () => $fetch(`${apiUrl}/seo-data/Nieuws`))
+
+const provincie = router.params.provincie;
 
 useHead({
   title: `${data.value.title} - ${router.params.provincie.replace(/-/g, ' ')}`,

@@ -12,7 +12,7 @@
             </div>
             <div class="col-md-8">
               <div class="news_list">
-                <RegioList :region="this.route.params.regio" path="meldingen"/>
+                <RegioList :region="regio" path="meldingen"/>
                 <!--         <div v-if="loading" class="spin" style="height: 300px;"></div>-->
 
 
@@ -104,6 +104,7 @@ backend = config.public.backend;
 
 const { data: melding, pending } = await useAsyncData('filter_meldingen', () => $fetch(`${apiUrl}/meldingen/filter-meldingen/${route.params.regio}/0`));
 meldingenArray = melding;
+const regio = route.params.regio
 
 onMounted(() => {
     refreshNuxtData('filter_meldingen');
