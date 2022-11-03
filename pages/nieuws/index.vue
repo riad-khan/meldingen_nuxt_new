@@ -117,8 +117,8 @@
                         <img v-if="item.dienst == 'politie'" src="@/assets/img/politie.png" class="news-icon"/>
                    <img v-if="item.dienst == 'traumaheli'" src="@/assets/img/traumaheli.png" class="news-icon"/>
 
-                        <nuxt-link
-                            :to="'/'+item.provincie.toLowerCase()+'/'+item.stad_url.toLowerCase()+'/'+item.straat_url.toLowerCase()+'/'+item.categorie_url+'/'+item.id">
+                   <nuxt-link
+                            :to="'/'+item.provincie.toLowerCase()+'/'+item.stad_url.toLowerCase()+'/'+item.regio_url.toLowerCase()+'/'+item.categorie_url.toLowerCase()+'-'+item.id">
                           {{ item.categorie }}
                         </nuxt-link>
                       </h3>

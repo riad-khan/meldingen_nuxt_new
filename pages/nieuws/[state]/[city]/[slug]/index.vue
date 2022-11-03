@@ -239,7 +239,7 @@ const {
   pending
 } = await useAsyncData('news_details', () => $fetch(`${apiUrl}/news/${id}`))
 const {data: seo} = await useAsyncData('news_seo', () => $fetch(`${apiUrl}/seo-data/Nieuws`));
-const {data: recentNews} = await useLazyAsyncData('recent_news', () => $fetch(`${apiUrl}/news/recent/news`))
+const {data: recentNews} = await useAsyncData('recent_news', () => $fetch(`${apiUrl}/news/recent/news`))
 const {data:totalComments} = await useAsyncData('comments_count',()=>$fetch(`${apiUrl}/comments/total-comments`))
 onMounted(() => {
   refreshNuxtData('news_details');
