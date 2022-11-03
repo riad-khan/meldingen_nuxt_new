@@ -2,7 +2,7 @@
   <section class="news_drop">
 
     <button id="news-btn" class="news-list-btn" @click="toggleRegio">Meldingen in <span
-        class="primary-color">{{ region }}</span> <img alt=""
+        class="primary-color">{{ titleCase(region) }}</span> <img alt=""
                                                        src="@/assets/img/icon-angle-down.svg"/></button>
 
     <div id="news-list" class="row bg-white border-radius">
@@ -13,7 +13,7 @@
       </div>
 
 
-      <div v-for="(item, i) in regios" :key="i" class="col-md-3">
+      <div v-for="(item, i) in values" :key="i" class="col-md-3">
         <div class="news-list">
           <ul>
             <li :class="region === item.regio ? 'active' : ''">
@@ -34,7 +34,8 @@
 </template>
 
 <script>
-import $ from 'jquery'
+import $ from 'jquery';
+import {values} from '../Values'
 
 let apiUrl;
 import axios from 'axios';
@@ -50,16 +51,8 @@ export default {
     return {
       regios: [],
       toggler: false,
+      values:values,
     }
-  },
-  created() {
-    axios.get(`${apiUrl}/news/fetch/regios`)
-        .then((response) => {
-          this.regios = response.data
-        })
-        .catch(error => {
-          console.log(response.data);
-        })
   },
 
   methods: {
@@ -68,6 +61,12 @@ export default {
       $(this).toggleClass("angle-up");
       $("#widget_title").toggleClass("slideOpen", 500);
     },
+
+     titleCase(region) {
+       let regio = region.replace(/-/g, ' ');
+       let upperText = regio.replace(/(^\w|\s\w)/g, m => m.toUpperCase());
+      return upperText
+}
 
   }
 }

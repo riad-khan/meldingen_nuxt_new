@@ -144,12 +144,16 @@ apiUrl = config.public.api;
 backend = config.public.backend;
 const route = useRoute();
 
-const {data: meldingenDetails, pending} = await useAsyncData('meldingen_details', () => $fetch(`${apiUrl}/meldingen/${route.params.id}`));
+var id = route.params.category.replace(/[^0-9]/g,'');
+
+
+
+
+const {data: meldingenDetails, pending} = await useAsyncData('meldingen_details', () => $fetch(`${apiUrl}/meldingen/${id}`));
 const {data: enheedens} = await useLazyAsyncData('enheeden', () => $fetch(`${apiUrl}/meldingen/enheeden/${route.params.id}`));
 const {data: recentNews} = await useLazyAsyncData('recent_news', () => $fetch(`${apiUrl}/news/recent/news`))
 
 
-console.log(meldingenDetails.value)
 
 useHead({
   titleTemplate: `${route.params.category.replace(/-/g, ' ')} - ${route.params.stad.replace(/-/g, ' ')}, ${route.params.regio.replace(/-/g, ' ')} | 112 Meldingen op Meldingen.nl`,
@@ -192,7 +196,7 @@ let apiUrl;
 let backend;
 import moment from "moment";
 export default {
-  name: "[id]",
+  name: "index",
   data(){
     return{
       currentUrl: "",

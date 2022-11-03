@@ -139,7 +139,7 @@
                   </div>
                   <div  class="load-more  text-center">
 
-                  <button v-if="totalComments.total !== comments.length" @click="loadMoreComments" class="button btn-sumit btn-full mt-10" name="comment_submit" data-v-b4fe5916="" style="background-color: rgb(43, 88, 130) !important;">Laad meer reacties </button>
+                    <button v-if="totalComments.total !== comments.length" @click="loadMoreComments" class="button btn-sumit btn-full mt-10" name="comment_submit" data-v-b4fe5916="" style="background-color: rgb(43, 88, 130) !important;">Laad meer reacties </button>
 
                   </div>
 
@@ -182,7 +182,7 @@
                         <div class="btn-group">
                           <a v-for="(tag,i) in item.tags.split(',')" v-show="tag.length !==0 "
                              :class="'button btn-more bg-blue border-radius-8 '+ tag"
-                             >{{ tag }}</a>
+                          >{{ tag }}</a>
                         </div>
                       </div>
 
@@ -233,10 +233,11 @@ const config = useRuntimeConfig();
 apiUrl = config.public.api;
 backend = config.public.backend;
 const route = useRoute();
+var id = route.params.slug.replace(/[^0-9]/g,'');
 const {
   data: newsDetails,
   pending
-} = await useAsyncData('news_details', () => $fetch(`${apiUrl}/news/${route.params.id}`))
+} = await useAsyncData('news_details', () => $fetch(`${apiUrl}/news/${id}`))
 const {data: seo} = await useAsyncData('news_seo', () => $fetch(`${apiUrl}/seo-data/Nieuws`));
 const {data: recentNews} = await useLazyAsyncData('recent_news', () => $fetch(`${apiUrl}/news/recent/news`))
 const {data:totalComments} = await useAsyncData('comments_count',()=>$fetch(`${apiUrl}/comments/total-comments`))
@@ -270,7 +271,7 @@ import addImage from 'assets/img/add-img.jpg';
 import moment from 'moment';
 
 export default {
-  name: "[id]",
+  name: "index",
   data() {
     return {
       image: {backgroundImage: `url(${addImage})`},
@@ -282,9 +283,11 @@ export default {
   },
   created() {
     if (typeof window !== 'undefined') {
+      const route = useRoute();
       this.auth = isAuth();
       token = localStorage.getItem('token');
-      this.getComments(this.$route.params.id,this.page)
+      let new_id = route.params.slug.replace(/[^0-9]/g,'');
+      this.getComments(new_id,this.page)
     }
 
 
@@ -299,7 +302,9 @@ export default {
       return moment(value).format('MMMM Do YYYY, h:mm:ss a');
     },
     getComments(id,page) {
-      axios.get(`${apiUrl}/comments/get-comments/${id}/${page}`, {
+      const route = useRoute();
+      let new_id = route.params.slug.replace(/[^0-9]/g,'');
+      axios.get(`${apiUrl}/comments/get-comments/${new_id}/${page}`, {
         headers: {
           "Content-type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem('token')}`
@@ -324,7 +329,7 @@ export default {
           .then((response) => {
 
             response.data.map((item)=>{
-                this.comments.push(item)
+              this.comments.push(item)
             })
 
           })
@@ -333,8 +338,9 @@ export default {
           })
     },
     submitComments() {
+      let new_id = route.params.slug.replace(/[^0-9]/g,'');
       const data = {
-        news_id: this.$route.params.id,
+        news_id: new_id,
         comments: this.message,
       }
       axios.post(`${apiUrl}/comments/insert-comments`, data, {
@@ -362,8 +368,8 @@ export default {
           })
     },
     loadMoreComments(){
-      const id =this.$route.params.id;
-      this.getMoreComments(id,this.page++);
+      let new_id = route.params.slug.replace(/[^0-9]/g,'');
+      this.getMoreComments(new_id,this.page++);
     }
 
   }

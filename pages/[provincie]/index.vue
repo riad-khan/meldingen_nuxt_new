@@ -1,8 +1,7 @@
 <template>
-  <section>
-    <Header/>
-    <location urlPath="meldingen"/>
-
+  <div>
+    <Header />
+    <location urlPath="meldingen" />
     <section class="news-overview-sec">
       <div class="container">
         <div class="row">
@@ -13,7 +12,9 @@
           </div>
           <div class="col-md-8">
             <div class="news_list">
-              <RegioList region="Nederland" path="meldingen"/>
+              <RegioList :region="regio" path="meldingen"/>
+              <!--         <div v-if="loading" class="spin" style="height: 300px;"></div>-->
+
 
               <div  class="meldingen"  v-for="(item,i) in meldingens"  :key="i">
                 <div class="news-item box-shadow border-radius acard">
@@ -21,7 +22,7 @@
                   <img v-if="item.dienst == 'brandweer'" src="@/assets/img/brandweer.png" class="news-icon"/>
                   <img v-if="item.dienst == 'kustwacht'" src="@/assets/img/kustwacht.png" class="news-icon"/>
                   <img v-if="item.dienst == 'politie'" src="@/assets/img/politie.png" class="news-icon"/>
-                 <img v-if="item.dienst == 'traumaheli'" src="@/assets/img/traumaheli.png" class="news-icon"/>
+                  <img v-if="item.dienst == 'traumaheli'" src="@/assets/img/traumaheli.png" class="news-icon"/>
                   <div class="news-content d-flex aling-items-center">
                     <div class="content_left">
                       <h4>
@@ -32,7 +33,7 @@
                       </h4>
                       <p class="place_name">
                         <span class="place-name"> {{ item.straat }}</span> in <span class="place-title"
-                                                                                    style="color: #669e97 !important;"><nuxt-link :to="item.provincie_url.toLowerCase()+'/'+item.stad_url.toLowerCase()">{{ item.stad }}</nuxt-link> </span>,
+                                                                                    style="color: #669e97 !important;"><nuxt-link :to="'/'+item.provincie_url.toLowerCase()+'/'+item.stad_url.toLowerCase()">{{ item.stad }}</nuxt-link> </span>,
                         <span class="place-name">
                {{ item.provincie }}</span>
                       </p>
@@ -61,9 +62,6 @@
                     </div>
                   </div>
                 </div>
-
-
-
                 <div v-if="i % 7 === 5" class="card card-img">
                   <div class="news-item box-shadow border-radius news-ad-sec min-height-100"
                        :style="image">
@@ -73,7 +71,7 @@
                   </div>
                 </div>
               </div>
-              <div v-if="loading" class="spin" style="height: 300px;"></div>
+
 
 
 
@@ -90,31 +88,66 @@
 
       </div>
     </section>
-    <Footer/>
-  </section>
+
+
+
+    <Footer />
+  </div>
+
 </template>
 
 <script setup>
+const route = useRoute();
 const config = useRuntimeConfig();
 apiUrl = config.public.api;
 backend = config.public.backend;
 
-const {data: melding, pending} = await useAsyncData('get_meldingen', () => $fetch(`${apiUrl}/meldingen/scroll-more/0`));
-const {data: seo} = await useAsyncData('home_seo', () => $fetch(`${apiUrl}/seo-data/home`));
+const { data: melding, pending } = await useAsyncData('filter_meldingen', () => $fetch(`${apiUrl}/meldingen/filter-meldingen/${route.params.provincie}/0`));
+meldingenArray = melding;
+const regio = route.params.provincie
+
+onMounted(() => {
+  refreshNuxtData('filter_meldingen');
+  refreshNuxtData('home_seo');
+
+})
 
 useHead({
-  titleTemplate: ` ${seo.value.title}`,
-  script: [{children: `${seo.value.structured_data}`}],
+  titleTemplate: `112 meldingen en p2000 uit ${route.params.provincie.replace(/-/g, ' ')}, | 112 ${route.params.provincie.replace(/-/g, ' ')},p2000 ${route.params.provincie.replace(/-/g, ' ')}`,
+  // script: [{children: `${seo.value.structured_data}`}],
   meta: [
-    {name: 'description', content: `${seo.value.seo_meta}`},
-    {name: 'keywords', content: `${seo.value.seo_keywords}`}
+    {name: 'description', content: `Overzicht 112 Meldingen uit ${route.params.provincie.replace(/-/g, ' ')} : Nu recente 112 en P2000 meldingen uit
+    ${route.params.provincie.replace(/-/g, ' ')} afkomstig van de brandweer, ambulance, politie en andere 112
+    `},
+
+    {name: 'keywords', content: `112 meldingen ${route.params.provincie.replace(/-/g, ' ')},112 ${route.params.provincie.replace(/-/g, ' ')},p2000 ${route.params.provincie.replace(/-/g, ' ')},
+    meldingen,p2000 meldingen, politie meldingen, brandweer meldingen, ambulance meldingen
+    `},
+
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    {
+      property: "og:title",
+      content: `112 meldingen en p2000 uit ${route.params.provincie.replace(/-/g, ' ')}, | 112 ${route.params.provincie.replace(/-/g, ' ')},p2000 ${route.params.provincie.replace(/-/g, ' ')}`,
+    },
+    {
+      property: "og:description",
+      content: `Overzicht 112 Meldingen uit ${route.params.provincie.replace(/-/g, ' ')} : Nu recente 112 en P2000 meldingen uit
+    ${route.params.provincie.replace(/-/g, ' ')} afkomstig van de brandweer, ambulance, politie en andere 112
+    `
+    },
+    {
+      property: "twitter:title",
+      content: `112 meldingen en p2000 uit ${route.params.provincie.replace(/-/g, ' ')}, | 112 ${route.params.provincie.replace(/-/g, ' ')},p2000 ${route.params.provincie.replace(/-/g, ' ')}`,
+    },
+    {
+      property: "twitter:description",
+      content: `Overzicht 112 Meldingen uit ${route.params.provincie.replace(/-/g, ' ')} : Nu recente 112 en P2000 meldingen uit
+    ${route.params.provincie.replace(/-/g, ' ')} afkomstig van de brandweer, ambulance, politie en andere 112
+    `
+    },
+
+
   ],
-})
-meldingenArray = melding.value;
-isLoading = pending;
-onMounted(() => {
-  refreshNuxtData('get_meldingen');
-  refreshNuxtData('home_seo');
 })
 
 </script>
@@ -123,62 +156,63 @@ onMounted(() => {
 import moment from "moment/moment";
 import axios from "axios";
 import addImage from 'assets/img/add-img.jpg'
-
 let apiUrl;
 let backend;
 let meldingenArray;
-let isLoading;
+
 export default {
-  name: "index.vue",
+  name: 'index',
   data() {
     return {
-      image: {backgroundImage: `url(${addImage})`},
+      image: { backgroundImage: `url(${addImage})` },
       prio: {
         1: 'Spoed',
         2: 'Gepaste spoed',
         3: 'Geen spoed',
         4: 'Grote ingreep'
       },
-
-      nexReq: null,
       meldingens: [],
-      loading: false,
-
       increment: 1,
+      region: '',
+      isLoading: false,
+
+
     }
   },
-  created() {
 
+  created() {
+    const route = useRoute();
+    this.region = route.params.regio
     this.meldingens = meldingenArray;
   },
   mounted() {
-    window.addEventListener('scroll', this.handleScroll)
+    window.addEventListener('scroll', this.handleScroll);
   },
+
   methods: {
     DateTime(value) {
-      return moment.unix(value, "MM-DD-YYYY").fromNow()
+      return moment.unix(value, "MM-DD-YYYY").locale('nl').fromNow()
     },
     getMoreMeldingen(page) {
-      this.loading = true;
-      axios.get(`${apiUrl}/meldingen/scroll-more/` + page)
+      const provincie = this.$route.params.provincie;
+      this.isLoading = true;
+      axios.get(`${apiUrl}/meldingen/filter-meldingen/` + provincie + '/' + page)
           .then((response) => {
             response.data.map((item, i) => {
               this.meldingens.push(item)
-              this.loading = false;
-
+              this.isLoading = false;
             })
-
           })
           .catch(error => {
             console.log(error)
+            this.isLoading = false;
           })
-
 
     },
     handleScroll() {
       if ((Math.round(window.scrollY) + window.innerHeight) >= document.body.scrollHeight) {
 
-          this.getMoreMeldingen(this.increment++);
+        this.getMoreMeldingen(this.increment++);
 
 
       }
@@ -187,7 +221,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 .prio{
   color: white;
@@ -258,5 +291,4 @@ export default {
     border-left: 0px solid #D8AF3B;
   }
 }
-
 </style>

@@ -28,7 +28,7 @@
                 <div class="card-content">
                   <h3 class="card-heading">
                     <nuxt-link
-                        :to="'/nieuws/'+item.state.toLowerCase()+'/'+item.city.replace(/\s+/g, '-').toLowerCase()+'/'+item.slug.toLowerCase() +'/'+item.id"
+                        :to="'/nieuws/'+item.state.toLowerCase()+'/'+item.city.replace(/\s+/g, '-').toLowerCase()+'/'+item.slug.toLowerCase() +'-'+item.id"
                         class="">
                       {{ item.title }}
                     </nuxt-link>
